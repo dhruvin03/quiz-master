@@ -1,11 +1,3 @@
-/*
-* Connect to MongoDB using mongoose.
-* Use process.env.DB_CONN and process.env.DB_PASSWORD for connecting with mongodb database.
-* Replace <db_password> with process.env.DB_PASSWORD in the connection string.
-* Log success and error messages to the console.
-* Export the connectDB function.
-*/
-
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
