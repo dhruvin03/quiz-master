@@ -54,9 +54,9 @@ The application will be built using the **MERN stack** within a **2-hour time co
 
 ## 4. Tech Stack
 
-Frontend - React
-Backend - NodeJs, ExpressJS
-Database - MongoDB Atlas
+- Frontend - React
+- Backend - NodeJs, ExpressJS
+- Database - MongoDB Atlas
 
 ---
 
