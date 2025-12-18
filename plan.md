@@ -75,5 +75,16 @@ The application will be built using the **MERN stack** within a **2-hour time co
 
 ## 6. Scope Changes During Development
 
+1. UI/UX tradeoffs.
+2. No secure authentication for admin. Only HTTP cookie authentication by matching values from .env file
+3. Single user can play a particular quiz n number of times.
 
+## 7. Future Enhancements
+
+1. User authentication
+2. Timed quizzes
+3. Leaderboards
+4. Analytics dashboard
+5. Question randomization
+6. Email notifications
 
