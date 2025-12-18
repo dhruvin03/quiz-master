@@ -34,9 +34,7 @@ const AdminLogin = () => {
             const response = await adminLogin(formData.email, formData.password);
             
             if (response.success) {
-                // Store login status in localStorage
-                localStorage.setItem('isAdminLoggedIn', 'true');
-                
+                // Cookie is set by backend, no need for localStorage
                 // Redirect to admin quizzes page
                 navigate('/admin/quizzes');
             }

@@ -65,6 +65,26 @@ export const adminLogin = async (email, password) => {
     }
 };
 
+// Admin: Logout
+export const adminLogout = async () => {
+    try {
+        const response = await api.post('/admin/logout');
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error.message;
+    }
+};
+
+// Admin: Check authentication status
+export const checkAuth = async () => {
+    try {
+        const response = await api.get('/admin/check-auth');
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error.message;
+    }
+};
+
 // Admin: Get all quizzes (published + unpublished)
 export const getAllQuizzes = async () => {
     try {

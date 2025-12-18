@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllQuizzes, publishQuiz, unpublishQuiz, deleteQuiz } from '../api/quizApi';
+import { getAllQuizzes, publishQuiz, unpublishQuiz, deleteQuiz, adminLogout } from '../api/quizApi';
 import Loader from '../components/Loader';
 
 const AdminQuizList = () => {
@@ -74,9 +74,16 @@ const AdminQuizList = () => {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('isAdminLoggedIn');
-        navigate('/admin/login');
+    const handleLogout = async () => {
+        try {
+            await adminLogout();
+            // Cookie is cleared by backend
+            navigate('/admin/login');
+        } catch (err) {
+            console.error('Logout error:', err);
+            // Still navigate to login even if API fails
+            navigate('/admin/login');
+        }
     };
 
     if (loading) {
