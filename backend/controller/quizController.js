@@ -43,6 +43,91 @@ const publishQuiz = async (req, res) => {
     }
 };
 
+// Admin: Unpublish Quiz (Protected)
+const unpublishQuiz = async (req, res) => {
+    try {
+        const quiz = await Quiz.findByIdAndUpdate(
+            req.params.id,
+            { isPublished: false },
+            { new: true }
+        );
+
+        if (!quiz) {
+            return res.status(404).json({ success: false, message: 'Quiz not found' });
+        }
+
+        res.status(200).json({ success: true, data: quiz });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Admin: Get All Quizzes (Protected)
+const getAllQuizzes = async (req, res) => {
+    try {
+        const quizzes = await Quiz.find().sort({ createdAt: -1 });
+        res.status(200).json({ success: true, data: quizzes });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Admin: Get Single Quiz by ID (with correct answers)
+const getQuizByIdAdmin = async (req, res) => {
+    try {
+        const quiz = await Quiz.findById(req.params.id);
+
+        if (!quiz) {
+            return res.status(404).json({ success: false, message: 'Quiz not found' });
+        }
+
+        res.status(200).json({ success: true, data: quiz });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Admin: Update Quiz (Protected)
+const updateQuiz = async (req, res) => {
+    try {
+        const { title, description, questions } = req.body;
+
+        // Validate if title and questions are present
+        if (!title || !questions || !Array.isArray(questions) || questions.length === 0) {
+            return res.status(400).json({ success: false, message: 'Title and questions are required, and questions must be a non-empty array.' });
+        }
+
+        const quiz = await Quiz.findByIdAndUpdate(
+            req.params.id,
+            { title, description, questions },
+            { new: true, runValidators: true }
+        );
+
+        if (!quiz) {
+            return res.status(404).json({ success: false, message: 'Quiz not found' });
+        }
+
+        res.status(200).json({ success: true, data: quiz });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Admin: Delete Quiz (Protected)
+const deleteQuiz = async (req, res) => {
+    try {
+        const quiz = await Quiz.findByIdAndDelete(req.params.id);
+
+        if (!quiz) {
+            return res.status(404).json({ success: false, message: 'Quiz not found' });
+        }
+
+        res.status(200).json({ success: true, message: 'Quiz deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 // Public: Get Published Quizzes
 const getPublishedQuizzes = async (req, res) => {
     try {
@@ -74,6 +159,11 @@ const getQuizById = async (req, res) => {
 module.exports = {
     createQuiz,
     publishQuiz,
+    unpublishQuiz,
+    getAllQuizzes,
+    getQuizByIdAdmin,
+    updateQuiz,
+    deleteQuiz,
     getPublishedQuizzes,
     getQuizById
 };
