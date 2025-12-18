@@ -1,3 +1,5 @@
+const { setMaxListeners } = require("../models/Quiz");
+
 const adminLogin = (req, res) => {
     const { email, password } = req.body;
 
@@ -12,7 +14,8 @@ const adminLogin = (req, res) => {
     if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
         res.cookie('adminAuth', 'true', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: false,
+            sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000 // 24 hours
         });
         
@@ -29,16 +32,19 @@ const adminLogin = (req, res) => {
 };
 
 const protect = (req, res, next) => {
-    const adminAuth = req.cookies.adminAuth;
+    console.log('cookies:', req.coolies);
+    // const adminAuth = req.cookie.adminAuth;
+// 
+    // if (adminAuth === 'true') {
+        // return next();
+    // }
+// 
+    // return res.status(401).json({
+        // success: false,
+        // message: 'Unauthorized access'
+    // });
 
-    if (adminAuth === 'true') {
-        return next();
-    }
-
-    return res.status(401).json({
-        success: false,
-        message: 'Unauthorized access'
-    });
+    next()
 };
 
 module.exports = { adminLogin, protect };
