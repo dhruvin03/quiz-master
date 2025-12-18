@@ -27,8 +27,8 @@ const QuizStart = () => {
         e.preventDefault();
         
         // Validation
-        if (!formData.name || !formData.email) {
-            setError('Name and email are required');
+        if (!formData.name || !formData.email || !formData.age || !formData.gender) {
+            setError('All fields are required');
             return;
         }
 
@@ -39,8 +39,8 @@ const QuizStart = () => {
             const userInfo = {
                 name: formData.name,
                 email: formData.email,
-                age: formData.age ? parseInt(formData.age) : undefined,
-                gender: formData.gender || undefined
+                age: parseInt(formData.age),
+                gender: formData.gender
             };
 
             const response = await startQuiz(userInfo, id);
@@ -113,7 +113,7 @@ const QuizStart = () => {
 
                                 <div className="mb-3">
                                     <label htmlFor="age" className="form-label">
-                                        <i className="bi bi-calendar-event me-2"></i>Age
+                                        <i className="bi bi-calendar-event me-2"></i>Age *
                                     </label>
                                     <input
                                         type="number"
@@ -122,6 +122,7 @@ const QuizStart = () => {
                                         name="age"
                                         value={formData.age}
                                         onChange={handleChange}
+                                        required
                                         placeholder="Enter your age"
                                         min="1"
                                         max="120"
@@ -131,7 +132,7 @@ const QuizStart = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="gender" className="form-label">
-                                        <i className="bi bi-gender-ambiguous me-2"></i>Gender
+                                        <i className="bi bi-gender-ambiguous me-2"></i>Gender *
                                     </label>
                                     <select
                                         className="form-select form-select-lg"
@@ -139,6 +140,7 @@ const QuizStart = () => {
                                         name="gender"
                                         value={formData.gender}
                                         onChange={handleChange}
+                                        required
                                         disabled={loading}
                                     >
                                         <option value="">Select gender</option>
